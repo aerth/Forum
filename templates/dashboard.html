@@ -1,0 +1,86 @@
+{{define "dashboard"}}
+<style>
+.cf {
+  clear: both;
+  width: 100%;
+}
+</style>
+<p>Hello @{{.MyUserData.NickName}}</p>
+You are UID {{.MyUserData.ID}} {{if eq .MyUserData.Gender 2}}M{{end}}{{if eq .MyUserData.Gender 1}}F{{end}}<br>
+{{if .MyFlashes}}{{range .MyFlashes}}
+<p style="color: red;">{{.}}</p>
+{{end}}{{end}}
+
+<!--
+ {{len .AllUsers}} Users in JSON<br>
+{{range .AllUsers}}
+{{.ID}} {{.Email}} {{.FirstName}}<br>
+{{end}}
+-->
+<br><br>
+
+<h2>Update Info</h2>
+<div class="box">
+
+<h3>Account Settings</h3>
+
+<form id="post" action="/testing" method="POST">
+
+      email: <input name="email" value="{{.MyUserData.Email}}" autocomplete="off" required/><br>
+      @name: <input name="nickname" value="{{.MyUserData.NickName}}" autocomplete="off" required/><br>
+
+      Delete Account: <input name="delete" type="checkbox"/><br>
+      <input type="hidden" name="action" value="profile"/>
+  {{ .csrfField }}
+  <br><input id="contact-submit" type="submit" value="update account!" />
+</form>
+
+
+
+<form id="post" action="/testing" method="POST">
+
+      New Password <input type="password" name="p1" autocomplete="off" placeholder="********" value="" required/><br>
+      twice: <input type="password" name="p2" autocomplete="off" placeholder="** **** **" value="" required/><br>
+
+      <input type="hidden" name="action" value="password"/>
+  {{ .csrfField }}
+  <br><input id="contact-submit" type="submit" value="update password!" />
+</form>
+</div>
+
+<div class="cf"></div>
+
+<!-- {{range .MyObjectBox.Objects}}
+<a href="/file/{{.}}">{{.}}</a><br>
+{{end}} -->
+
+<h2>Add photos</h2>
+    <form id="updatedata" action="/testing" enctype="multipart/form-data" method="POST">
+        {{ .csrfField }}
+      <input type="file" name="file" required/><br/>
+      <input type="hidden" name="action" value="addphoto"/><br/>
+      <input type="checkbox" name="public"/> Public<br/>
+      <input type="text" name="permissions"> Comma Separated List of UID Able to View
+
+    <input id="submit" type="submit" value="Update Data" />
+    </form>
+    <form id="deletedata" action="/testing" enctype="multipart/form-data" method="POST">
+        {{ .csrfField }}
+
+
+        <input type="hidden" name="action" value="deletebox"/><br/>
+    <input id="submit" type="submit" value="Delete Data" />
+    </form>
+
+<!--
+Passwd:
+  {{range .AllUsersPasswd}}
+  <p>  {{.}}</p>
+
+  {{end}}
+
+-->
+
+
+<a href="/logout">logout</a>
+{{end}}

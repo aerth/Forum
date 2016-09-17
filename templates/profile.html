@@ -1,0 +1,13 @@
+{{define "signup"}}
+
+
+
+    <form id="signupform" action="/signup" method="POST">
+        {{ .csrfField }}
+      <input type="text" name="u" placeholder="screenname" required/><br/>
+    <input type="password" name="p" placeholder="password" required/><br/>
+    <input id="contact-submit" type="submit" value="SIGNUP!" />
+    </form>
+
+
+{{end}}

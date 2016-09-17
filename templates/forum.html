@@ -1,0 +1,118 @@
+{{define "forum"}}
+<style>
+.cf {
+  clear: both;
+  width: 100%;
+}
+</style>
+<p>Hello @{{.MyUserData.NickName}}</p>
+You are UID {{.MyUserData.ID}} {{if eq .MyUserData.Gender 2}}M{{end}}{{if eq .MyUserData.Gender 1}}F{{end}}<br>
+{{if .MyFlashes}}{{range .MyFlashes}}
+<p style="color: red;">{{.}}</p>
+{{end}}{{end}}
+<!-- <pre>
+
+{{range .Topics}}
+<a href="/forum/t/{{.ID}}">{{.Body}}</a>
+{{end}}
+
+<br>
+
+{{.Posts}}
+</pre> -->
+
+
+{{if .Result}}
+<div style="width: 100%; text-align: center">
+<h2>Result:</h2>
+<div style="border: 1px solid black; max-width: 300px;"><pre><code>
+{{.Result.Title}}<br>
+{{.Result.Body}}<br>
+</code></pre></div></div>
+<!-- replies -->
+
+{{if ne 0 (len .Replies)}}
+<ol>
+{{range .Replies}}
+<li>{{.Body}}</li>
+{{end}}
+</ol>
+{{else}}
+No replies!
+{{end}}
+<!-- reply -->
+<form id="forumNewTopic" action="/forum" enctype="multipart/form-data" method="POST">
+  <input type="hidden" name="action" value="newreply"/><br/>
+    {{ .csrfField }}
+<input type="hidden" name="to" value="{{.Result.ID}}" required/>
+ <textarea name="body" cols="80" rows="20"> </textarea><br>  <br>
+  <!-- <select type="text" name="category"/>
+  {{range .Categories}}
+  <option name="{{.ID}}" value="{{.ID}}">{{.Name}}</option>
+
+  {{end}}
+</select> Category -->
+<br>  <br>
+  <!-- Optional file <input type="file" name="file"/><br/> -->
+<br>
+<input id="submit" type="submit" value="New Reply!" />
+</form>
+<!-- end reply -->
+
+
+
+{{end}}
+
+{{if .Results}}
+<div style="width: 100%; text-align: center">
+<h2>Results:</h2>
+{{range .Results}}{{if ne .Title ""}}
+<div style="border: 1px solid black; max-width: 300px;"><pre><code>
+<a href="/forum/t/{{.ID}}">{{.Title}}</a><br>
+</code></pre></div>
+<br><br>
+{{end}}{{end}}
+</div>
+{{end}}
+<br><br>
+<hr>
+<h2>Categories:</h2>
+{{range .Categories}}{{if ne .Name ""}}
+<a href="/forum/c/{{.ID}}">{{.Name}}</a><br>
+{{end}}{{end}}
+
+<h2>Post Forum</h2>
+    <form id="forumNewTopic" action="/forum" enctype="multipart/form-data" method="POST">
+      <input type="hidden" name="action" value="newtopic"/><br/>
+        {{ .csrfField }}
+<input type="text" name="title"/> Title
+    <br>  <br>
+
+     <textarea name="body" cols="80" rows="20"> </textarea><br>  <br>
+      <select type="text" name="category"/>
+      {{range .Categories}}
+      <option name="{{.ID}}" value="{{.ID}}">{{.Name}}</option>
+
+      {{end}}
+    </select> Category
+    <br>  <br>
+      <!-- Optional file <input type="file" name="file"/><br/> -->
+<br>
+    <input id="submit" type="submit" value="New Topic!" />
+    </form>
+    <form id="forumNewCategory" action="/forum" method="POST">
+      <input type="hidden" name="action" value="newcategory"/><br/>
+        {{ .csrfField }}
+      <input type="text" name="category"/>
+
+    <input id="submit" type="submit" value="New Category!" />
+    </form>
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<a href="/logout">logout</a>
+{{end}}

@@ -1,0 +1,17 @@
+{{define "login"}}
+
+{{if .MyFlashes}}
+{{range .MyFlashes}}
+<p style="color: red;">{{.}}</p>
+{{end}}
+{{end}}
+
+    <form id="loginform" action="/login" method="POST">
+        {{ .csrfField }}
+      <input type="text" name="u" placeholder="screenname" required/><br/>
+    <input type="password" name="p" placeholder="password" required/><br/>
+    <input id="login-submit" type="submit" value="LOGIN!" />
+    </form>
+
+
+{{end}}

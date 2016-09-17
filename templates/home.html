@@ -1,0 +1,9 @@
+{{define "home"}}
+{{if .MyFlashes}}
+{{range .MyFlashes}}
+<p style="color: red;">{{.}}</p>
+{{end}}
+{{end}}
+{{template "login" .}}
+{{template "signup" .}}
+{{end}}

@@ -1,0 +1,82 @@
+{{define "bangprofile"}}
+<style>
+.cf {
+  clear: both;
+  width: 100%;
+}
+</style>
+<div class="cf"></div>
+<h2>You have to update your profile to continue: </h2>
+<!-- {{range .NeededProfileFields}}
+{{.}}<br>
+{{end}} -->
+
+
+<form id="post" action="/testing" method="POST">
+
+
+      <input type="hidden" name="action" value="profile"/>
+
+
+{{range .NeededProfileFields}}
+
+{{if eq . "Gender"}}
+<h4>You are required to add a Gender</h4>
+Your Gender
+	<select name="gender" value="1" required>
+<option name="" label="" value=""/></option>
+<option name="1" label="1" value="1"/>Female</option>
+<option name="2" label="2" value="2"/>Male</option>
+<option name="3" label="3"value="3"/>Transgender</option>
+<option name="4" label="4" value="4"/>Couple</option>
+<option  name="5" label="5" value="5"/>Other</option>
+</select>
+{{end}}
+
+{{if eq . "LookingFor"}}
+<h2>Interested In (Gender)</h2>
+<select name="lookingfor" required>
+	<option name="" label="" value=""/></option>
+	<option name="1" value="1"/>Female</option>
+	<option name="2" value="2"/>Male</option>
+	<option name="3" value="3"/>Transgender</option>
+	<option name="4" value="4"/>Couple</option>
+	<option  name="5" value="5"/>Other</option>
+</select>
+{{end}}
+{{if eq . "NickName"}}
+  <h4>You are required to add a NickName</h4>
+@name: <input name="nickname" value="" autocomplete="off" required/><br>
+{{end}}
+{{if eq . "ZipCode"}}
+  <h4>You are required to add a ZipCode</h4>
+ZIP <input name="zipcode" value="" autocomplete="off" required/><br>
+{{end}}
+
+
+
+
+
+
+
+{{end}}
+
+{{ .csrfField }}
+<br><input id="contact-submit" type="submit" value="update account!" />
+</form>
+
+
+<form id="post" action="/testing" method="POST">
+
+<p>Or you can  Delete Account:</p>
+   <input name="delete" type="checkbox"/>Confirm Delete Account
+   <br>
+   {{ .csrfField }}
+      <input type="hidden" name="action" value="profile"/>
+<input id="contact-submit" type="submit" value="Delete account!" />
+</form>
+
+
+
+<a href="/logout">logout</a>
+{{end}}
